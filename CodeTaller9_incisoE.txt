@@ -1,0 +1,32 @@
+section .data
+chars db 65, 92, 36, 38, 49 ; A, \, $, &, 1
+msg db 'Caracteres: ', 0
+section .bss
+buffer resb 1
+
+section .text
+global _start
+_start:
+; Imprimir mensaje
+mov eax, 4
+mov ebx, 1
+mov ecx, msg
+mov edx, 12
+int 0x80
+
+mov esi, chars ; apuntamos al arreglo
+mov ecx, 5 ; 5 caracteres por imprimir
+IMPRIME:
+mov al, [esi] ; cargar carácter
+mov [buffer], al
+mov eax, 4
+mov ebx, 1
+mov ecx, buffer
+mov edx, 1
+int 0x80
+inc esi
+loop IMPRIME
+mov eax, 1
+xor ebx, ebx
+
+int 0x80

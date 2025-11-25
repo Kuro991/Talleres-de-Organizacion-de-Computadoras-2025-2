@@ -1,0 +1,19 @@
+; Entrada: [N]
+MOV EAX, [N]
+TEST EAX, EAX
+JE ES_CERO ; si ZF = 1 -> cero
+JS ES_NEGATIVO ; si SF = 1 -> negativo
+; si ninguno -> positivo
+; imprimir "Positivo"
+JMP FIN
+
+ES_CERO:
+; imprimir "Cero"
+JMP FIN
+
+ES_NEGATIVO:
+; imprimir "Negativo"
+JMP FIN
+
+FIN:
+; fin

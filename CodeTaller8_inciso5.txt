@@ -1,0 +1,13 @@
+; Entrada: [X], [Y] (enteros sin signo 32-bit)
+MOV EAX, [X]
+ADD EAX, [Y] ; realiza suma unsigned
+JC HAY_ACARREO ; JC salta si CF = 1 (acarreo fuera del MSB)
+; No carry
+; imprimir "No hay acarreo", resultado en EAX
+JMP FIN
+
+HAY_ACARREO:
+; imprimir "Se generó acarreo (Carry)"
+JMP FIN
+
+FIN:

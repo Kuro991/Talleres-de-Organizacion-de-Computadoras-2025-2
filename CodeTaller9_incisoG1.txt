@@ -1,0 +1,16 @@
+section .text
+global _start
+_start:
+mov al, 64 ; ASCII '@' inmediato
+mov [buf], al
+mov eax, 4
+mov ebx, 1
+mov ecx, buf
+mov edx, 1
+int 0x80
+
+mov eax, 1
+int 0x80
+
+section .bss
+buf resb 1

@@ -1,0 +1,21 @@
+; Entrada: [N] (asumimos al menos byte válido)
+MOV EAX, [N]
+AND AL, 1 ; AL = N & 1 (0 si par, 1 si impar)
+ADD AL, AL ; AL = 0 -> 0x00 ; AL = 1 -> 0x02
+
+; ahora PF indica:
+; PF = 1 -> resultado tiene paridad par -> corresponde a N par
+; PF = 0 -> N impar
+JP ES_PAR ; JP = jump parity (saltos: JPE/JPO nomenclaturas)
+; Dependiendo de ensamblador: use JPE (jump parity even) o JP (paridad par)
+; Aquí usamos JPE (salta si PF=1)
+; Para claridad:
+JPE ES_PAR
+; si no saltó => impar
+; imprimir "Impar"
+JMP FIN
+
+ES_PAR:
+; imprimir "Par"
+FIN:
+; fin

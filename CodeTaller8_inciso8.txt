@@ -1,0 +1,12 @@
+MOV ECX, 10 ; contador de iteraciones
+XOR EAX, EAX ; EAX = 0 (valor actual a imprimir)
+LOOP_START:
+; imprimir EAX (valor actual: 0..9)
+; (aquí la rutina de impresión depende del entorno)
+INC EAX ; EAX = EAX + 1 (prepara siguiente valor)
+LOOP LOOP_START ; decrementa ECX; si ECX != 0 salta a LOOP_START
+; NOTA: cuando se entra por primera vez, EAX=0 impreso; se INC y LOOP hace
+ECX--
+; al terminar, EAX será 10 (pero no se imprime 10)
+FIN:
+; fin

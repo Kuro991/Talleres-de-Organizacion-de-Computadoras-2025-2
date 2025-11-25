@@ -1,0 +1,15 @@
+; Entrada: [X], [Y] (enteros con signo 32-bit)
+MOV EAX, [X]
+ADD EAX, [Y] ; realiza suma signed
+JO HAY_OVERFLOW ; JO salta si OF = 1 (overflow en suma signed)
+; No overflow
+; imprimir "Suma OK" y resultado en EAX
+JMP FIN
+
+HAY_OVERFLOW:
+; imprimir "Overflow detectado" (desbordamiento aritmético signed)
+; opcional: manejar recorte o saturación
+JMP FIN
+
+FIN:
+; fin

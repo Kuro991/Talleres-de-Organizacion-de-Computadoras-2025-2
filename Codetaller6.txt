@@ -1,0 +1,51 @@
+section .data ; Sección para datos inicializados (variables)
+; Se define el mensaje a imprimir si los números NO son iguales
+msg_diferente db "Los numeros son diferentes (EAX != EBX)", 0xA, 0xD ; 0xA:
+salto de línea, 0xD: retorno de carro
+len_diferente equ $ - msg_diferente ; Calcula la longitud del mensaje
+
+; Se define el mensaje a imprimir si los números SÍ son iguales
+msg_igual db "Los numeros son IGUALES (EAX == EBX)", 0xA, 0xD
+len_igual equ $ - msg_igual
+
+section .text ; Sección para el código ejecutable
+global _start
+
+_start:
+MOV EAX, 10 ; Cargar el primer valor en EAX
+MOV EBX, 10 ; Cargar el segundo valor en EBX
+
+; Comparación y Salto Condicional
+CMP EAX, EBX ; Compara EAX con EBX (resta EAX - EBX, modifica flags)
+
+; JNE (Jump if Not Equal): Salta a 'imprimir_diferente' si el Zero Flag (ZF) es 0
+(i.e., EAX != EBX)
+JNE imprimir_diferente
+
+; Bloque 'igual' (si el salto NO se tomó, EAX == EBX)
+; Llamada al sistema (sys_write) para imprimir el mensaje de igualdad
+MOV EAX, 4 ; Número de syscall sys_write (4)
+MOV EBX, 1
+MOV ECX, msg_igual ; Dirección del mensaje 'msg_igual'
+MOV EDX, len_igual ; Longitud del mensaje
+INT 0x80
+
+JMP salir ; Salto Incondicional para evitar la ejecución del bloque
+'imprimir_diferente'
+
+imprimir_diferente:
+; Bloque 'diferente' (si el salto SÍ se tomó, EAX != EBX)
+; Llamada al sistema (sys_write) para imprimir el mensaje de diferencia
+MOV EAX, 4 ; Número de syscall sys_write (4)
+MOV EBX, 1
+MOV ECX, msg_diferente ; Dirección del mensaje 'msg_diferente'
+MOV EDX, len_diferente ; Longitud del mensaje
+INT 0x80
+
+salir:
+; Finalización del programa
+; Llamada al sistema (sys_exit) para terminar el programa
+
+MOV EAX, 1 ; Número de syscall sys_exit (1)
+MOV EBX, 0 ; Código de salida (0 = éxito)
+INT 0x80 ; Llama al kernel (Termina la ejecución)

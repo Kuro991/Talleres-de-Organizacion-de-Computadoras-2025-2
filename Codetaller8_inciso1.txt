@@ -1,0 +1,37 @@
+; Entrada: [A] y [B] (variables/memoria o registros)
+; Salidas: mensajes (IGUALES, A_MAYOR, B_MAYOR, NEGATIVO)
+MOV EAX, [A] ; EAX = A
+TEST EAX, EAX
+JS A_NEG ; si A < 0 (Sign flag), saltar
+MOV EBX, [B] ; EBX = B
+TEST EBX, EBX
+JS B_NEG ; si B < 0
+; comparar A y B (comparación de enteros con CMP)
+CMP EAX, EBX
+JE SON_IGUALES ; ZF = 1 -> iguales
+JG A_MAYOR ; SF/OF combinados por JG -> A > B (signed)
+JL B_MAYOR ; A < B
+A_NEG:
+; imprimir "A es negativo"
+; (si quieres además comparar, puedes seguir; aquí solo mensaje)
+JMP FIN
+
+B_NEG:
+; imprimir "B es negativo"
+JMP FIN
+
+SON_IGUALES:
+; imprimir "A y B son iguales"
+JMP FIN
+
+A_MAYOR:
+
+; imprimir "A > B"
+JMP FIN
+
+B_MAYOR:
+; imprimir "A < B"
+JMP FIN
+
+FIN:
+; fin del programa

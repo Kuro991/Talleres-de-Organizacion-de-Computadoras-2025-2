@@ -1,0 +1,45 @@
+; Entrada: [A], [B], [C]
+; Salida: [MIN], [MAX] (o mensajes)
+MOV EAX, [A] ; asumimos EAX -> candidato min y max
+MOV EBX, EAX
+MOV ECX, [B]
+MOV EDX, [C]
+; Inicializamos:
+MOV ESI, EAX ; ESI = curr_min
+MOV EDI, EAX ; EDI = curr_max
+; Comparar con B
+CMP ECX, ESI
+JL B_MENOR ; si B < curr_min -> nuevo min
+JG B_MAYOR ; si B > curr_max -> nuevo max
+; si igual, nada
+B_MENOR:
+MOV ESI, ECX
+
+; continuar
+; (si saltamos acá desde JL, necesitamos ir comparar C)
+; para simplicidad, saltar a COMPARA_C
+JMP COMPARA_C
+B_MAYOR:
+MOV EDI, ECX
+JMP COMPARA_C
+COMPARA_C:
+; comparar C con min
+CMP EDX, ESI
+JL C_MENOR
+; comparar C con max
+CMP EDX, EDI
+JG C_MAYOR
+JMP FIN
+
+C_MENOR:
+MOV ESI, EDX
+JMP FIN
+
+C_MAYOR:
+MOV EDI, EDX
+JMP FIN
+
+FIN:
+; ESI = MIN, EDI = MAX
+; imprimir ESI y EDI
+; fin
