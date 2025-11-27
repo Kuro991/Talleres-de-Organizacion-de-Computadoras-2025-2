@@ -1,0 +1,65 @@
+section .data
+    ; Estructura tipo x/x/x donde cada X es un número de 8 bits.
+    estructura_x db 12, 7, 15
+    ; Representa 12/7/15 como si fuera x/x/x
+
+    msg_resultado db "La suma de los elementos de x/x/x es: ",0
+    salto db 10,0
+
+section .bss
+    buffer resb 4      ; Para guardar el número convertido a ASCII
+
+; MACRO PARA IMPRIMIR UNA CADENA
+%macro PRINT_STRING 1
+    ; Este macro imprime una cadena cuyo inicio es %1
+    mov eax, 4            ; syscall: write
+    mov ebx, 1            ; salida estándar
+    mov ecx, %1           ; dirección de la cadena
+    mov edx, 50           ; longitud aproximada
+    int 0x80
+%endmacro
+
+; MACRO PARA SUMAR LOS ELEMENTOS DE LA ESTRUCTURA x/x/x
+%macro SUMAR_XXX 2
+    ; %1 = dirección de la estructura
+    ; %2 = número de elementos
+
+    mov esi, %1       ; apuntar a la estructura
+    mov ecx, %2       ; número de elementos
+    xor eax, eax      ; acumulador = 0
+
+.sumar:
+        add eax, [esi]    ; sumar cada X
+        add esi, 1        ; avanzar al siguiente elemento
+        loop .sumar
+%endmacro
+
+section .text
+    global _start
+
+_start:
+
+    ; 1. Imprimir mensaje inicial
+    PRINT_STRING msg_resultado
+
+    ; 2. Sumar cada X del tipo x/x/x usando el macro SUMAR_XXX
+    SUMAR_XXX estructura_x, 3
+    ; Al finalizar, EAX contiene la suma → 12 + 7 + 15 = 34
+
+    ; 3. Convertir resultado a ASCII (solo conceptual)
+    ; Guardamos el valor en BL y lo convertimos a caracteres.
+    mov ebx, eax
+
+    ; Conversión simple
+    ; Guardar el número convertido en "buffer"
+    add bl, '0'
+    mov [buffer], bl
+
+    ; 4. Imprimir el resultado convertido
+    PRINT_STRING buffer
+    PRINT_STRING salto
+
+    ; 5. Salir del programa
+    mov eax, 1
+    mov ebx, 0
+    int 0x80
