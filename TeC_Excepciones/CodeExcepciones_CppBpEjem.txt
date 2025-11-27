@@ -1,0 +1,24 @@
+#include <iostream>
+#include <vector>
+
+int main() {
+    std::vector<int> valores = {10, 20, 30, 40, 50, 100};
+    int threshold = 45;
+
+    std::cout << "Inicio del procesamiento...\n";
+    for (size_t i = 0; i < valores.size(); ++i) {
+        int v = valores[i];
+        // breakpoint
+        std::cout << "Procesando index " << i << " valor=" << v << std::endl;
+
+        if (v > threshold) {
+            // breakpoint condicional
+            // condición: v > threshold
+            std::cout << "Valor por encima del umbral: " << v << std::endl;
+            // Pausar y examinar variables, stack, etc.
+        }
+    }
+
+    std::cout << "Fin.\n";
+    return 0;
+}
